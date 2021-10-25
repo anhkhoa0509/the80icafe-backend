@@ -1,0 +1,75 @@
+#BACK END
+- Tải node express
+    + npm init để tạo file pakage.js
+    + npm install --save body-parser@1.19.0 dotenv@8.2.0 ejs@3.1.5 express@4.17.1
+    + npm install --save-dev @babel/core@7.12.10 @babel/preset-env@7.12.10 
+    + npm install --save-dev @babel/node@7.12.10 nodemon@2.0.7
+- Tạo cấu trúc project 
+    + src
+        config
+        controllres
+        migrations
+        models
+        public
+        route
+        seeders
+        services
+        views
+        server.js
+    .babelrc
+    .env
+    .env.example
+    pakage-lock.json
+    pakege.json
+
+- Trong config tạo viewEngine.js chỉnh lại đường link
+- Route có chức năng trung gian hướng dẫn đường link
+- Sever.js chạy tất cả các file chính
+- Kết nối với cở sở dữ liệu thông qua Xampp
+1. Cài đặt các thư viện:  sequlize-cli, sequelize và mysql2
+                            npm install --save-dev sequelize-cli@6.2.0
+                            npm install --save mysql2@2.2.5
+                            npm install --save sequelize@6.6.2
+2. Thêm file .sequelizerc tại thư mục root
+        Nội dung file: .sequelizerc
+                        const path = require('path');
+                        module.exports = {
+                        'config': path.resolve('./src/config', 'config.json'),
+                        'migrations-path': path.resolve('./src', 'migrations'),
+                        'models-path': path.resolve('./src', 'models'),
+                        'seeders-path': path.resolve('./src', 'seeders')
+                        }
+        Tại thư mục root, sử dụng câu lệnh: node_modules/.bin/sequelize init
+3. Tạo model: 
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+4: Tạo migrations:
+npx sequelize-cli db:migrate
+5. Tạo Seeder: npx sequelize-cli seed:generate --name demo-user
+
+
+
+
+* Các bước check login
+- Nhận thông tin user gồm username and password qua req:
+    +Đk check : nếu !username || !password => Sai trả về res.status(500).json({thông tin lỗi}) 
+    +Trong service tạo userService để check thông tin
+    +Else thông tin username và pass có thì truyền username và password vào userService để check
+    * Trong userService tạo 1 hàm chính nhận trực tiếp username và password
+        - Hàm handleUserLogin(hàm chính) 
+            + trở về 1 promise {
+                try {
+                    let isExist = gọi cái hàm check username 
+                    nếu có isExist 
+                        check password 
+                    ngược lại
+                        userData.errCode = 1;
+                        userData.mess = 'Username trong có trong hệ thống'
+                }
+            }
+
+
+            + Hàm check user trả về true false
+            + hàm checkemail trả về email dựa trên user 
+                từ pass có từ check mail giải mã cái pass đó và so sánh với cái pass được 
+                truyền vào từ hàm chính
+            
